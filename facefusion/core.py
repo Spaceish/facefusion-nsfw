@@ -17,7 +17,7 @@ from facefusion.face_analyser import get_one_face, get_average_face
 from facefusion.face_store import get_reference_faces, append_reference_face
 from facefusion.vision import get_video_frame, detect_fps, read_image, read_static_images
 from facefusion import face_analyser, face_masker, content_analyser, metadata, logger, wording
-from facefusion.content_analyser import analyse_image, analyse_video
+# from facefusion.content_analyser import analyse_image, analyse_video
 from facefusion.processors.frame.core import get_frame_processors_modules, load_frame_processor_module
 from facefusion.common_helper import create_metavar
 from facefusion.execution_helper import encode_execution_providers, decode_execution_providers
@@ -159,8 +159,8 @@ def run(program : ArgumentParser) -> None:
 	apply_args(program)
 	logger.init(facefusion.globals.log_level)
 	limit_resources()
-	if not pre_check() or not content_analyser.pre_check() or not face_analyser.pre_check() or not face_masker.pre_check():
-		return
+	# if not pre_check() or not content_analyser.pre_check() or not face_analyser.pre_check() or not face_masker.pre_check():
+	# 	return
 	for frame_processor_module in get_frame_processors_modules(facefusion.globals.frame_processors):
 		if not frame_processor_module.pre_check():
 			return
@@ -236,8 +236,8 @@ def conditional_append_reference_faces() -> None:
 
 
 def process_image() -> None:
-	if analyse_image(facefusion.globals.target_path):
-		return
+	# if analyse_image(facefusion.globals.target_path):
+	# 	return
 	shutil.copy2(facefusion.globals.target_path, facefusion.globals.output_path)
 	# process frame
 	for frame_processor_module in get_frame_processors_modules(facefusion.globals.frame_processors):
@@ -256,8 +256,8 @@ def process_image() -> None:
 
 
 def process_video() -> None:
-	if analyse_video(facefusion.globals.target_path, facefusion.globals.trim_frame_start, facefusion.globals.trim_frame_end):
-		return
+	# if analyse_video(facefusion.globals.target_path, facefusion.globals.trim_frame_start, facefusion.globals.trim_frame_end):
+	# 	return
 	fps = detect_fps(facefusion.globals.target_path) if facefusion.globals.keep_fps else 25.0
 	# create temp
 	logger.info(wording.get('creating_temp'), __name__.upper())
